@@ -5,7 +5,7 @@ pragma solidity 0.8.28;
 import "./PiggyCA.sol";
 
 contract PiggyFactory {
-    address public developerAddress;
+    address public immutable developerAddress;
     uint256 public piggyCount;
     error youHaveFailed();
 
@@ -20,7 +20,6 @@ contract PiggyFactory {
         uint256 _endTime
     ) external view returns (bytes memory) {
         bytes memory _bytecode = type(PiggyCA).creationCode;
-
         return
             abi.encodePacked(
                 _bytecode,
