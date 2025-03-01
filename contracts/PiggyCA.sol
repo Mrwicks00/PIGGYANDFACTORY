@@ -60,7 +60,7 @@ contract PiggyCA {
             0
         );
         tokenDetails[Tokens.USDT] = TokenDetails(
-            0xdAC17F958D2ee523a2206206994597C13D831ec,
+            0xdAC17F958D2ee523a2206206994597C13D831ec7,
             0
         );
         tokenDetails[Tokens.USDC] = TokenDetails(

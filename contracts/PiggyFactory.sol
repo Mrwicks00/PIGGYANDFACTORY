@@ -69,6 +69,6 @@ contract PiggyFactory {
     function getUserDeployedContracts(
         address user
     ) external view returns (address[] memory) {
-        return deployedContracts[user];
+        return userDeployedContracts[user];
     }
 }
