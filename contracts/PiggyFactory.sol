@@ -13,7 +13,7 @@ contract PiggyFactory {
         developerAddress = msg.sender;
     }
 
-    mapping(address => address[]) public deployedContracts;
+    mapping(address => address[]) public userDeployedContracts;
 
     function getPiggyByteCode(
         string memory _savingPurpose,
@@ -49,7 +49,7 @@ contract PiggyFactory {
             }
         }
 
-        deployedContracts[msg.sender].push(piggyAddress);
+        userDeployedContracts[msg.sender].push(piggyAddress);
         return piggyAddress;
     }
     // function CreateAnotherPiggy( string memory _savingPurpose,
