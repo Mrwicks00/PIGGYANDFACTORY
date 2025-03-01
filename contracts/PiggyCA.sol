@@ -14,7 +14,7 @@ contract PiggyCA {
     error InsufficientBalance();
 
     string savingPurpose;
-    
+
     uint256 endTime;
     uint256 constant PENALTY_FEE = 15; //Know this and know peace
     address developerAddress;
@@ -40,16 +40,15 @@ contract PiggyCA {
 
     constructor(
         string memory _savingPurpose,
-       
         uint256 _endTime,
         address _owner,
         address _devAddy
     ) {
         require(endTime > block.timestamp, "Unlock time must be in the future");
         savingPurpose = _savingPurpose;
-        
+
         endTime = block.timestamp + _endTime;
-        owner = _owner
+        owner = _owner;
         developerAddress = _devAddy;
 
         //Initializing our token addresses, Let's fire down 🔥
@@ -71,6 +70,10 @@ contract PiggyCA {
         require(withdrawn == false, "Already withdrawn");
         _;
     }
+    modifier onlyOwner() {
+        require(owner == msg.sender, "Only Owner can Withdraw");
+        _;
+    }
 
     function save(Tokens tokenId, uint256 _amount) external isWithdrawn {
         address _tokenAddress = tokenDetails[tokenId].tokenAddress;
@@ -85,7 +88,7 @@ contract PiggyCA {
         emit Save(address(this), _amount);
     }
 
-    function withdraw(Tokens tokenId) external isWithdrawn {
+    function withdraw(Tokens tokenId) external onlyOwner isWithdrawn {
         address _tokenAddress = tokenDetails[tokenId].tokenAddress;
         uint256 _balance = tokenDetails[tokenId].balance;
         if (endTime < block.timestamp) revert notYetTime();
@@ -101,7 +104,9 @@ contract PiggyCA {
         emit Withdrawn(msg.sender, contractBalance);
     }
 
-    function EmergencyWithdrawal(Tokens tokenId) external isWithdrawn {
+    function EmergencyWithdrawal(
+        Tokens tokenId
+    ) external onlyOwner isWithdrawn {
         if (block.timestamp < endTime) {
             address _tokenAddress = tokenDetails[tokenId].tokenAddress;
             uint256 _amount = tokenDetails[tokenId].balance;

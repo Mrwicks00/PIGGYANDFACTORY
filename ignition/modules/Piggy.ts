@@ -4,7 +4,7 @@
 import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 
 const piggyModule = buildModule("piggyModule", (m) => {
-  const piggy = m.contract("PiggyFactory" []);
+  const piggy = m.contract("PiggyFactory");
 
   return { piggy };
 });
