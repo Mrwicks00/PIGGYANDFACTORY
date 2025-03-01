@@ -52,6 +52,19 @@ contract PiggyFactory {
         deployedContracts[msg.sender].push(piggyAddress);
         return piggyAddress;
     }
+    // function CreateAnotherPiggy( string memory _savingPurpose,
+    //     uint256 _endTime,) public returns (address){
+    //           bytes32 salt = keccak256(abi.encodePacked(msg.sender, piggyCount));
+    //         PiggyCA piggyContract = new PiggyCA{
+    //             salt : salt
+
+    //         }( savingPurpose : _savingPurpose,
+    //     endTime : _endTime,
+    //     owner : _owner,
+    //      developerAddress :developerAddress )
+
+    //      return address(address(this));
+    //     }
 
     function getUserDeployedContracts(
         address user

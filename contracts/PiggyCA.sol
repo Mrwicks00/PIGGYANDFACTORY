@@ -44,7 +44,10 @@ contract PiggyCA {
         address _owner,
         address _devAddy
     ) {
-        require(endTime > block.timestamp, "Unlock time must be in the future");
+        require(
+            _endTime > block.timestamp,
+            "Unlock time must be in the future"
+        );
         savingPurpose = _savingPurpose;
 
         endTime = block.timestamp + _endTime;
@@ -57,11 +60,11 @@ contract PiggyCA {
             0
         );
         tokenDetails[Tokens.USDT] = TokenDetails(
-            0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48,
+            0xdAC17F958D2ee523a2206206994597C13D831ec,
             0
         );
         tokenDetails[Tokens.USDC] = TokenDetails(
-            0xdAC17F958D2ee523a2206206994597C13D831ec7,
+            0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48,
             0
         );
     }
@@ -91,7 +94,7 @@ contract PiggyCA {
     function withdraw(Tokens tokenId) external onlyOwner isWithdrawn {
         address _tokenAddress = tokenDetails[tokenId].tokenAddress;
         uint256 _balance = tokenDetails[tokenId].balance;
-        if (endTime < block.timestamp) revert notYetTime();
+        if (endTime > block.timestamp) revert notYetTime();
         if (_balance == 0) revert InsufficientBalance();
         if (IERC20(_tokenAddress).balanceOf(address(this)) == 0)
             revert noMoneyInTheBank();
@@ -117,6 +120,7 @@ contract PiggyCA {
             IERC20(_tokenAddress).transfer(developerAddress, penaltyAmount);
             withdrawn = true;
             emit Withdrawn(msg.sender, remainingBalance);
+            emit Withdrawn(developerAddress, penaltyAmount);
         }
     }
 
